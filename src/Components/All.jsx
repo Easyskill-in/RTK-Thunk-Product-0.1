@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { FetchProduct, remove, reset } from '../Store/ProductSlice'
+import { DeleteSingleProduct, FetchProduct, FetchSingleProduct, remove, reset } from '../Store/ProductSlice'
+import { useNavigate } from 'react-router-dom'
 
 const All = () => {
     const data = useSelector(state => state.Product)
     // console.log(data)
     const dispatch = useDispatch()
-
+    const nav = useNavigate()
     useEffect(() => {
         dispatch(FetchProduct())
     }, [])
@@ -16,16 +17,20 @@ const All = () => {
     }
     return (
         <>
-            <div className="main-all">
+            <div className="main-all" >
 
                 {data.item.map((value, index) => (
-                    <div key={value.id} className='sub-main-all'>
-                        <img src={value.image} alt="" />
-                        <h1>{value.title}</h1>
-                        <h3>{value.category}</h3>
-                        <span>{value.price}</span>
+                    <div key={value.id} className='sub-main-all' >
+                        <div className="temp" onClick={() => {
+                            nav(`/Product/${value.id}`)
+                        }}>
+                            <img src={value.image} alt="" />
+                            <h1>{value.title}</h1>
+                            <h3>{value.category}</h3>
+                            <span>{value.price}</span>
+                        </div>
                         <button onClick={() => {
-                            dispatch(remove(value.id))
+                            dispatch(DeleteSingleProduct(value.id))
                         }}>Delete</button>
                     </div>
                 ))}

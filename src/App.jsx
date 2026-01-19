@@ -10,6 +10,7 @@ import Test from './Test'
 import Product from './Components/Product'
 import All from './Components/All'
 import Add from './Components/Add'
+import SingleProduct from './Components/SingleProduct'
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/Product' element={<Product />} >
           <Route path='all' element={<All />} />
           <Route path='add' element={<Add />} />
+          <Route path=':id' element={<SingleProduct />} />
         </Route>
 
 

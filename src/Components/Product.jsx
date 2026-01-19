@@ -10,6 +10,7 @@ const Product = () => {
                     <Link to="/product/all">All Products</Link>
                     <hr />
                     <Link to="/product/add">Add Products</Link>
+
                 </div>
                 <div className="product">
                     <Outlet />
