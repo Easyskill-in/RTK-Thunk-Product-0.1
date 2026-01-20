@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { add, reset } from '../Store/ProductSlice'
+import { add, AddSingleProduct, reset } from '../Store/ProductSlice'
 import { useNavigate } from 'react-router-dom'
 
 const Add = () => {
@@ -22,14 +22,16 @@ const Add = () => {
             <form action="" onSubmit={(e) => {
                 e.preventDefault()
                 console.log(Product)
-                
-                dispatch(add(Product))
+
+                // dispatch(add(Product))
+                dispatch(AddSingleProduct(Product))
                 setProduct({
                     title: "",
                     price: 0,
                     category: "",
                     image: "",
                 })
+
                 nav("/product/all")
 
             }}>

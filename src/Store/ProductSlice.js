@@ -10,6 +10,7 @@ const FetchProduct = createAsyncThunk("Product/Get", async () => {
         return error.message
     }
 });
+
 const FetchSingleProduct = createAsyncThunk("SingleProduct/Get", async (id) => {
     try {
         console.log("\n\nFetching Single Product.....")
@@ -32,6 +33,18 @@ const DeleteSingleProduct = createAsyncThunk("DeleteSingleProduct/Delete", async
         return error.message
     }
 });
+const AddSingleProduct = createAsyncThunk("AddSingleProduct/POST", async (product) => {
+    try {
+        console.log("\n\nAdding Product.....")
+        const res = await axios.post(`https://fakestoreapi.com/products`, product)
+        res.data.id = Date.now()
+        return res.data;
+    } catch (error) {
+        return error.message
+    }
+});
+
+
 
 
 const ProductSlice = createSlice({
@@ -50,17 +63,23 @@ const ProductSlice = createSlice({
                 count: 0
             }
         },
+        deletingId: null,
         loading: false,
-        error: null
+        error: null,
+
     },
     reducers: {
         add: (state, action) => {
             state.item.push(action.payload)
         },
         remove: (state, action) => {
-            state.item = state.item.filter((value, index) => {
+            const data = JSON.parse(localStorage.getItem("products"));
+
+            const newArray = data.filter((value, index) => {
                 return value.id !== action.payload
             })
+            localStorage.setItem("products", formToJSON.stringify(newArray));
+            state.item.push(...newArray)
 
         },
         reset: (state) => {
@@ -85,18 +104,29 @@ const ProductSlice = createSlice({
             state.singleProduct = action.payload
         })
             .addCase(DeleteSingleProduct.pending, (state, action) => {
-                state.loading = true
+                // state.loading = true
+                // state.deletingId = action.payload
             })
             .addCase(DeleteSingleProduct.fulfilled, (state, action) => {
+                // const data = JSON.parse(localStorage.getItem("products"));
                 state.item = state.item.filter((value, index) => {
                     state.loading = false
                     return value.id !== action.payload
                 })
+                state.deletingId = null
+            }).addCase(AddSingleProduct.pending, (state) => {
+                state.loading = true
+            }).addCase(AddSingleProduct.fulfilled, (state, action) => {
+                state.loading = false
+                // state.item.push(action.payload)
+                state.item = [...state.item, action.payload];
+                localStorage.setItem("products", JSON.stringify(state.item));
+                state.item = JSON.parse(localStorage.getItem("products"));
             })
     }
 
 })
 
-export { FetchProduct, DeleteSingleProduct, FetchSingleProduct }
+export { FetchProduct, DeleteSingleProduct, FetchSingleProduct, AddSingleProduct }
 export const { add, remove, reset } = ProductSlice.actions
 export default ProductSlice.reducer

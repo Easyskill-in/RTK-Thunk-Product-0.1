@@ -29,8 +29,13 @@ const All = () => {
                             <h3>{value.category}</h3>
                             <span>{value.price}</span>
                         </div>
+                        {data.deletingId === value.id ? 'Deleting...' : ''}
                         <button onClick={() => {
-                            dispatch(DeleteSingleProduct(value.id))
+                            if (value.id > 1000) {
+                                dispatch(remove(value.id))
+                            } else {
+                                dispatch(DeleteSingleProduct(value.id))
+                            }
                         }}>Delete</button>
                     </div>
                 ))}
@@ -40,3 +45,6 @@ const All = () => {
 }
 
 export default React.memo(All)
+
+
+//https://pool-collision-da5.notion.site/React-Toastify-Complete-Notes-517088518d144ee39a1743bd2f9d8ea6
