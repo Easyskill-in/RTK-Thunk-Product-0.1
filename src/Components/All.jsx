@@ -8,8 +8,13 @@ const All = () => {
     // console.log(data)
     const dispatch = useDispatch()
     const nav = useNavigate()
+    // useEffect(() => {
+    //     dispatch(FetchProduct())
+    // }, [])
     useEffect(() => {
-        dispatch(FetchProduct())
+        if (data.item.length === 0) {
+            dispatch(FetchProduct())
+        }
     }, [])
 
     if (data.loading) {
