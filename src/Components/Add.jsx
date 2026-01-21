@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Add = () => {
     const [Product, setProduct] = useState({
-        id: Date.now(),
+
         title: "",
         price: 0,
         category: "",
