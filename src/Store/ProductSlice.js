@@ -73,14 +73,9 @@ const ProductSlice = createSlice({
             state.item.push(action.payload)
         },
         remove: (state, action) => {
-            const data = JSON.parse(localStorage.getItem("products"));
-
-            const newArray = data.filter((value, index) => {
-                return value.id !== action.payload
-            })
-            localStorage.setItem("products", formToJSON.stringify(newArray));
-            state.item.push(...newArray)
-
+            state.item = state.item.filter(
+                product => product.id !== action.payload
+            );
         },
         reset: (state) => {
             state.item = []
@@ -108,20 +103,20 @@ const ProductSlice = createSlice({
                 // state.deletingId = action.payload
             })
             .addCase(DeleteSingleProduct.fulfilled, (state, action) => {
-                // const data = JSON.parse(localStorage.getItem("products"));
-                state.item = state.item.filter((value, index) => {
-                    state.loading = false
-                    return value.id !== action.payload
-                })
+                state.item = state.item.filter(
+                    product => product.id !== action.payload
+                );
                 state.deletingId = null
-            }).addCase(AddSingleProduct.pending, (state) => {
+            })
+            .addCase(AddSingleProduct.pending, (state) => {
                 state.loading = true
             }).addCase(AddSingleProduct.fulfilled, (state, action) => {
+                state.item.push(action.payload);
                 state.loading = false
-                // state.item.push(action.payload)
-                state.item = [...state.item, action.payload];
-                localStorage.setItem("products", JSON.stringify(state.item));
-                state.item = JSON.parse(localStorage.getItem("products"));
+                // // state.item.push(action.payload)
+                // state.item = [...state.item, action.payload];
+                // localStorage.setItem("products", JSON.stringify(state.item));
+                // state.item = JSON.parse(localStorage.getItem("products"));
             })
     }
 
