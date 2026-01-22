@@ -1,39 +1,37 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import Home from './Home'
-import About from './About'
-import DashBoard from './DashBorad'
-import Profile from './Profile'
-import './App.css'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import About from "./About";
+import DashBoard from "./DashBorad";
+import Profile from "./Profile";
+import "./App.css";
 
-import Test from './Test'
-import Product from './Components/Product'
-import All from './Components/All'
-import Add from './Components/Add'
-import SingleProduct from './Components/SingleProduct'
+import Test from "./Test";
+import Product from "./Components/Product";
+import All from "./Components/All";
+import Add from "./Components/Add";
+import SingleProduct from "./Components/SingleProduct";
+import UpdateProduct from "./Components/UpdateProduct";
 
 const App = () => {
-
-  localStorage.setItem("IsLogin", JSON.stringify(false))
+  localStorage.setItem("IsLogin", JSON.stringify(false));
 
   return (
     <div>
-
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/Product' element={<Product />} >
-          <Route path='all' element={<All />} />
-          <Route path='add' element={<Add />} />
-          <Route path=':id' element={<SingleProduct />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/Product" element={<Product />}>
+          <Route path="all" element={<All />} />
+          <Route path="add" element={<Add />} />
+          <Route path=":id" element={<SingleProduct />} />
+          <Route path="update/:id" element={<UpdateProduct />} />
         </Route>
-
 
         {/* <Route path='/about' element={
           <ProtectedRoute>
             <About />
           </ProtectedRoute>
         } /> */}
-
 
         {/* <Route element={<Test />} >
           <Route path='/profile' element={<Profile />} />
@@ -46,14 +44,9 @@ const App = () => {
             <About />
           } />
         </Route> */}
-
-
       </Routes>
-
     </div>
-  )
-}
+  );
+};
 
-
-
-export default App
+export default App;
